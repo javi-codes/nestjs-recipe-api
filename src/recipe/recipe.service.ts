@@ -1,4 +1,4 @@
-import { Injectable, Body, Post } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -24,10 +24,13 @@ export class RecipeService {
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
-    return `This action updates a #${id} recipe`;
+    return this.prisma.recipe.update({
+      where: { id },
+      data: updateRecipeDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} recipe`;
+    return this.prisma.recipe.delete({ where: { id } });
   }
 }
